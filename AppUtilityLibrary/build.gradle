@@ -1,6 +1,10 @@
 plugins {
     id 'com.android.library'
+    id 'maven-publish'
 }
+
+group = 'com.android.apputilitylibrary'
+version = '1.0.0'
 
 android {
     namespace 'com.android.apputilitylibrary'
@@ -24,6 +28,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -39,5 +50,19 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation ('com.github.bumptech.glide:okhttp3-integration:4.11.0'){
         exclude group: 'glide-parent'
+    }
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = 'com.android.apputilitylibrary'
+            artifactId = 'app-utility-library'
+            version = '1.0.0'
+
+            afterEvaluate {
+                from components.findByName('release')
+            }
+        }
     }
 }
