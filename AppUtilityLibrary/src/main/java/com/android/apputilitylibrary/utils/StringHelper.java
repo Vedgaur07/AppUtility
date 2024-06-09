@@ -1,9 +1,12 @@
 package com.android.apputilitylibrary.utils;
 
 import android.content.Context;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
+import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -591,6 +594,13 @@ public class StringHelper {
 
     public static boolean isStringContainsOnlyNumber(String str) {
         return str.matches("[0-9]+");
+    }
+
+    public static void copyTextToClipBoard(@NonNull Context context, String label, String textForCopy) {
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(label, textForCopy);
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(context, "Copy to clipboard", Toast.LENGTH_SHORT).show();
     }
 
 }
